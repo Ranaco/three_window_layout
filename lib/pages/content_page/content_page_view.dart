@@ -14,7 +14,7 @@ class ContentPageView extends StatelessWidget{
           return Container(
             color: Colors.grey.shade600,
             height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width * (2/3),
+            width: MediaQuery.of(context).size.width,
               child: const Center(
                   child: Text("Hello there Content page")
                 ) 

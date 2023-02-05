@@ -42,9 +42,15 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     Home.name: (routeData) {
+      final args = routeData.argsAs<HomeArgs>();
       return AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const HomePageView(),
+        child: HomePageView(
+          key: args.key,
+          currentPage: args.currentPage,
+          toggleDrawer: args.toggleDrawer,
+          leftVal: args.leftVal,
+        ),
       );
     },
     Drawer.name: (routeData) {
@@ -139,14 +145,46 @@ class BaseRouteRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [HomePageView]
-class Home extends PageRouteInfo<void> {
-  const Home()
-      : super(
+class Home extends PageRouteInfo<HomeArgs> {
+  Home({
+    Key? key,
+    required int currentPage,
+    required void Function() toggleDrawer,
+    required double leftVal,
+  }) : super(
           Home.name,
           path: 'home-page-view',
+          args: HomeArgs(
+            key: key,
+            currentPage: currentPage,
+            toggleDrawer: toggleDrawer,
+            leftVal: leftVal,
+          ),
         );
 
   static const String name = 'Home';
+}
+
+class HomeArgs {
+  const HomeArgs({
+    this.key,
+    required this.currentPage,
+    required this.toggleDrawer,
+    required this.leftVal,
+  });
+
+  final Key? key;
+
+  final int currentPage;
+
+  final void Function() toggleDrawer;
+
+  final double leftVal;
+
+  @override
+  String toString() {
+    return 'HomeArgs{key: $key, currentPage: $currentPage, toggleDrawer: $toggleDrawer, leftVal: $leftVal}';
+  }
 }
 
 /// generated route for
