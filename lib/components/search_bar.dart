@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:three_window_layout/components/constants.dart';
 import 'package:three_window_layout/components/drawer_button.dart';
+import 'package:three_window_layout/components/theme/theme_provider.dart';
 
 class SearchBar extends StatefulWidget {
   final Function(String) search;
@@ -37,46 +40,60 @@ class _SearchBarState extends State<SearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        margin: const EdgeInsets.only(top: 10),
-        height: 45,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            color: Colors.grey.shade200,
-            borderRadius: !widget.searchInFocus
-                ? BorderRadius.circular(100)
-                : BorderRadius.zero),
-        child: Focus(
-            onFocusChange: (val) {
-              widget.animateAppBar(val);
-              setState(() {
+    return Consumer(builder: (context, ThemeProvider themeProvider, child) {
+      return AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          margin: const EdgeInsets.only(top: 30),
+          height: 45,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: themeProvider.useColorModeValue(
+                  Colors.grey.shade200, Constants.darkGrey),
+              borderRadius: !widget.searchInFocus
+                  ? BorderRadius.circular(100)
+                  : BorderRadius.zero),
+          child: Focus(
+              onFocusChange: (val) {
+                widget.animateAppBar(val);
                 arrowTurns = !val ? 0 : -0.5;
-              });
-            },
-           child: TextField(
-              onChanged: (val) {
-                _searchController.text = val;
               },
-              decoration: InputDecoration(
-                hintText: "Search",
-                hintStyle: TextStyle(
-                  color: Colors.grey.shade400,
+              child: TextField(
+                onTapOutside: (del) {
+                  WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+                },
+                onChanged: (val) {
+                  _searchController.text = val;
+                },
+                decoration: InputDecoration(
+                  hintText: "Search",
+                  hintStyle: TextStyle(
+                    color: themeProvider.useColorModeValue(
+                        null, Colors.grey.shade400),
+                  ),
+                  prefixIcon: DrawerButton(
+                    turns: arrowTurns,
+                    icon: widget.searchInFocus
+                        ? Icon(
+                            Icons.arrow_forward,
+                            color: themeProvider.useColorModeValue(
+                                Colors.black, Colors.grey.shade500),
+                          )
+                        : Icon(
+                            Icons.menu,
+                            color: themeProvider.useColorModeValue(
+                                Colors.black, Colors.grey.shade500),
+                          ),
+                    isInFocus: widget.searchInFocus,
+                    onTap: () {
+                      widget.searchInFocus
+                          ? WidgetsBinding.instance.focusManager.primaryFocus
+                              ?.unfocus()
+                          : widget.toggleDrawer();
+                    },
+                  ),
+                  border: InputBorder.none,
                 ),
-                prefixIcon: DrawerButton(
-                  turns: arrowTurns,
-                  icon: widget.searchInFocus ? 
-           const Icon(Icons.arrow_forward, color: Colors.black,): 
-           const Icon(Icons.menu, color: Colors.black,),
-                  isInFocus: widget.searchInFocus,
-                  onTap:  () {
-                    widget.searchInFocus
-                        ? WidgetsBinding.instance.focusManager.primaryFocus
-                            ?.unfocus()
-                        : widget.toggleDrawer();
-                  },),
-                border: InputBorder.none,
-              ),
-            )));
+              )));
+    });
   }
 }
