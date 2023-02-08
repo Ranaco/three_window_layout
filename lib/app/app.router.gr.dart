@@ -29,16 +29,10 @@ class _$AppRouter extends RootStackRouter {
     HomeTab.name: (routeData) {
       return CustomPage<dynamic>(
         routeData: routeData,
-        child: const EmptyRouterPage(),
+        child: const BasePageView(),
         durationInMilliseconds: 0,
         opaque: true,
         barrierDismissible: false,
-      );
-    },
-    BaseRouteRoute.name: (routeData) {
-      return AdaptivePage<dynamic>(
-        routeData: routeData,
-        child: const BasePageView(),
       );
     },
     Home.name: (routeData) {
@@ -49,7 +43,6 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           currentPage: args.currentPage,
           toggleDrawer: args.toggleDrawer,
-          leftVal: args.leftVal,
         ),
       );
     },
@@ -75,14 +68,9 @@ class _$AppRouter extends RootStackRouter {
           children: [
             RouteConfig(
               HomeTab.name,
-              path: 'all',
+              path: '',
               parent: AppRoute.name,
               children: [
-                RouteConfig(
-                  BaseRouteRoute.name,
-                  path: '',
-                  parent: HomeTab.name,
-                ),
                 RouteConfig(
                   Home.name,
                   path: 'home-page-view',
@@ -119,28 +107,16 @@ class AppRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [EmptyRouterPage]
+/// [BasePageView]
 class HomeTab extends PageRouteInfo<void> {
   const HomeTab({List<PageRouteInfo>? children})
       : super(
           HomeTab.name,
-          path: 'all',
+          path: '',
           initialChildren: children,
         );
 
   static const String name = 'HomeTab';
-}
-
-/// generated route for
-/// [BasePageView]
-class BaseRouteRoute extends PageRouteInfo<void> {
-  const BaseRouteRoute()
-      : super(
-          BaseRouteRoute.name,
-          path: '',
-        );
-
-  static const String name = 'BaseRouteRoute';
 }
 
 /// generated route for
@@ -150,7 +126,6 @@ class Home extends PageRouteInfo<HomeArgs> {
     Key? key,
     required int currentPage,
     required void Function() toggleDrawer,
-    required double leftVal,
   }) : super(
           Home.name,
           path: 'home-page-view',
@@ -158,7 +133,6 @@ class Home extends PageRouteInfo<HomeArgs> {
             key: key,
             currentPage: currentPage,
             toggleDrawer: toggleDrawer,
-            leftVal: leftVal,
           ),
         );
 
@@ -170,7 +144,6 @@ class HomeArgs {
     this.key,
     required this.currentPage,
     required this.toggleDrawer,
-    required this.leftVal,
   });
 
   final Key? key;
@@ -179,11 +152,9 @@ class HomeArgs {
 
   final void Function() toggleDrawer;
 
-  final double leftVal;
-
   @override
   String toString() {
-    return 'HomeArgs{key: $key, currentPage: $currentPage, toggleDrawer: $toggleDrawer, leftVal: $leftVal}';
+    return 'HomeArgs{key: $key, currentPage: $currentPage, toggleDrawer: $toggleDrawer}';
   }
 }
 

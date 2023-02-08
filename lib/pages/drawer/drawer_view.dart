@@ -17,6 +17,7 @@ class DrawerView extends StatelessWidget {
       viewModelBuilder: () => DrawerViewModel(),
       builder: (context, model, child) {
         return Container(
+          color: Colors.blue,
             width: MediaQuery.of(context).size.width * 2/3,
             height: MediaQuery.of(context).size.height,
             padding: const EdgeInsets.only(top: 30),

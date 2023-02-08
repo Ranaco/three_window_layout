@@ -9,13 +9,12 @@ import 'package:three_window_layout/pages/homepage/homepage_viewmodel.dart';
 
 class HomePageView extends StatefulWidget {
   final VoidCallback toggleDrawer;
-  final double leftVal;
   final int currentPage;
   const HomePageView(
       {Key? key,
       required this.currentPage,
       required this.toggleDrawer,
-      required this.leftVal})
+      })
       : super(key: key);
 
   @override

@@ -19,15 +19,11 @@ part 'package:three_window_layout/app/app.router.gr.dart';
         durationInMilliseconds: 0,
         children: [
           CustomRoute(
-            page: EmptyRouterPage,
             durationInMilliseconds: 0,
             name: 'HomeTab',
-            path: 'all',
-            children: [
-              AutoRoute(
-                  page: BasePageView,
+            page: BasePageView,
                   initial: true,
-                ),
+                  children: [
               AutoRoute(
                   page: HomePageView,
                   name: 'home'
@@ -40,7 +36,7 @@ part 'package:three_window_layout/app/app.router.gr.dart';
                   page: ContentPageView, 
                   name: 'content'
                 )
-            ]
+                  ]
             )
         ]
       )
