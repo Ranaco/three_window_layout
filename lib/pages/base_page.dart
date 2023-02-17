@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:three_window_layout/pages/content_page/content_page_view.dart';
 import 'package:three_window_layout/pages/drawer/drawer_view.dart';
 import 'package:three_window_layout/pages/homepage/homepage_view.dart';
 import 'package:three_window_layout/components/widget_cover.dart';
@@ -19,21 +18,22 @@ class _BasePageViewState extends State<BasePageView>{
   bool drawerIsOpen = true;
   int currentPage = 1;
   double dragDist = 0.0;
-  double MIN_DRAG_DISTANCE = 15;
+  final double MIN_DRAG_DISTANCE = 15;
+  double dragSpeed = 0.0;
 
     @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     final leftMaxDrag = size.width * 2/3;
-    final rightMaxDrag = 0.0;
+    const rightMaxDrag = 0.0;
 
 
   toggleDrawer() {
       drawerIsOpen = !drawerIsOpen;
       setState(() {
         if (drawerIsOpen) {
-          dragDist = dragDist - size.width * 2 / 3;
+          dragDist = dragDist + size.width * -2 / 3;
           currentPage = 1;
         } else {
           dragDist = dragDist + size.width * 2 / 3;
@@ -66,14 +66,13 @@ class _BasePageViewState extends State<BasePageView>{
 
     }
 
-
-
     handleDragDown(DragDownDetails details) {
       tapDownPos = details.globalPosition.dx;
     }
 
     handleDragUp(DragEndDetails details) {
       lastUpPos = percentage;
+      dragSpeed = details.primaryVelocity!;
     }
 
     handleDragUpdate(DragUpdateDetails details) {
@@ -84,7 +83,7 @@ class _BasePageViewState extends State<BasePageView>{
       setState(() {
         dragDist = (percentage / 100) * size.width;
       });
-      if(dragDist > leftMaxDrag){
+      if(dragDist> leftMaxDrag){
         dragDist = leftMaxDrag;
       } else if(dragDist < (rightMaxDrag)){
         dragDist = rightMaxDrag;
@@ -93,9 +92,9 @@ class _BasePageViewState extends State<BasePageView>{
     }
 
     return GestureDetector(
-        onHorizontalDragDown: handleDragDown,
-        onHorizontalDragEnd: handleDragUp,
-        onHorizontalDragUpdate: handleDragUpdate,
+        //onHorizontalDragDown: handleDragDown,
+        //onHorizontalDragEnd: handleDragUp,
+        //onHorizontalDragUpdate: handleDragUpdate,
         child: SizedBox(
           child: Stack(
             children: [
